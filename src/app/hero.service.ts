@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+//Decorator that marks a class as available to be provided and injected as a dependency. 
+import { HttpClient, HttpHeaders } from '@angular/common/http';//from node_module
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -7,7 +8,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Hero } from './hero';
 import { MessageService } from './message.service';
 
-
+ 
 @Injectable({ providedIn: 'root' })
 export class HeroService {
 
@@ -25,7 +26,7 @@ export class HeroService {
   getHeroes (): Observable<Hero[]> {
     return this.http.get<Hero[]>(this.heroesUrl)
       .pipe(
-        tap(_ => this.log('fetched heroes')),
+        tap(_ => this.log('fetched Data')),
         catchError(this.handleError<Hero[]>('getHeroes', []))
       );
   }
@@ -38,7 +39,7 @@ export class HeroService {
         map(heroes => heroes[0]), // returns a {0|1} element array
         tap(h => {
           const outcome = h ? `fetched` : `did not find`;
-          this.log(`${outcome} hero id=${id}`);
+          this.log(`${outcome}  id=${id}`);
         }),
         catchError(this.handleError<Hero>(`getHero id=${id}`))
       );
@@ -48,7 +49,7 @@ export class HeroService {
   getHero(id: number): Observable<Hero> {
     const url = `${this.heroesUrl}/${id}`;
     return this.http.get<Hero>(url).pipe(
-      tap(_ => this.log(`fetched hero id=${id}`)),
+      tap(_ => this.log(`fetched Data id=${id}`)),
       catchError(this.handleError<Hero>(`getHero id=${id}`))
     );
   }
@@ -61,9 +62,9 @@ export class HeroService {
     }
     return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
       tap(x => x.length ?
-         this.log(`found heroes matching "${term}"`) :
-         this.log(`no heroes matching "${term}"`)),
-      catchError(this.handleError<Hero[]>('searchHeroes', []))
+         this.log(`found data matching "${term}"`) :
+         this.log(`no data matching "${term}"`)),
+      catchError(this.handleError<Hero[]>('searchItem', []))
     );
   }
 
@@ -72,8 +73,8 @@ export class HeroService {
   /** POST: add a new hero to the server */
   addHero (hero: Hero): Observable<Hero> {
     return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
-      tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
-      catchError(this.handleError<Hero>('addHero'))
+      tap((newHero: Hero) => this.log(`added data w/ id=${newHero.id}`)),
+      catchError(this.handleError<Hero>('add'))
     );
   }
 
@@ -83,16 +84,16 @@ export class HeroService {
     const url = `${this.heroesUrl}/${id}`;
 
     return this.http.delete<Hero>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted hero id=${id}`)),
-      catchError(this.handleError<Hero>('deleteHero'))
+      tap(_ => this.log(`deleted id=${id}`)),
+      catchError(this.handleError<Hero>('delete'))
     );
   }
 
   /** PUT: update the hero on the server */
   updateHero (hero: Hero): Observable<any> {
     return this.http.put(this.heroesUrl, hero, this.httpOptions).pipe(
-      tap(_ => this.log(`updated hero id=${hero.id}`)),
-      catchError(this.handleError<any>('updateHero'))
+      tap(_ => this.log(`updated id=${hero.id}`)),
+      catchError(this.handleError<any>('update'))
     );
   }
 
@@ -118,6 +119,6 @@ export class HeroService {
 
   /** Log a HeroService message with the MessageService */
   private log(message: string) {
-    this.messageService.add(`HeroService: ${message}`);
+    this.messageService.add(`Service: ${message}`);
   }
 }

@@ -14,7 +14,7 @@ export class HeroesComponent implements OnInit {
   constructor(private heroService: HeroService) { }
 
   ngOnInit() {
-    this.getHeroes();
+    this.getHeroes();//from hero.service get data from server
   }
 
   getHeroes(): void {
@@ -23,7 +23,7 @@ export class HeroesComponent implements OnInit {
   }
 
   add(name: string): void {
-    name = name.trim();
+    name = name.trim();//remove whitespace
     if (!name) { return; }
     this.heroService.addHero({ name } as Hero)
       .subscribe(hero => {
